@@ -32,13 +32,67 @@ log = core.getLogger()
 def _handle_PacketIn (event):
 
   msg = of.ofp_flow_mod()
+  # if (msg.match.dl_type == 0x800):
+    
+  #Definição dos eventos do switch 1
   if event.dpid == 1:
-    if event.port == 3:
-      msg.match.in_port = 3
-      msg.actions.append(of.ofp_action_output(port = 4))
-    elif event.port == 4:
-      msg.match.in_port = 4
-      msg.atctions.append(of.ofp_action_output(port = 3))
+    print("Switch: " + str(event.dpid))
+    # print("From Port: " + str(event.port))
+    # print("From IP: " + str(event.srcip))
+    # print("To IP: " + str(nw_dst))
+      
+    if event.parsed.find("ipv4").dstip == "10.10.1.101":
+      print("To 10.10.1.101")
+      msg.match.dl_type = 0x800    
+      # msg.match.nw_src = IPAddr(event.srcip)
+      msg.match.nw_dst = "10.10.1.101"
+      msg.actions.append(of.ofp_action_output( port = 3 ))
+
+    if event.parsed.find("ipv4").dstip == "10.10.1.102":
+      print("To 10.10.1.102")
+      msg.match.dl_type = 0x800    
+      # msg.match.nw_src = IPAddr("10.0.0.101")
+      msg.match.nw_dst = "10.10.1.102"
+      msg.actions.append(of.ofp_action_output( port = 4 ))
+
+    event.connection.send(msg)
+
+
+
+      # if event.port == 3:
+      #   msg.match.in_port = 3
+      #   msg.actions.append(of.ofp_action_output(port = 4))
+      #   print("To: 4")
+      # elif event.port == 4:
+      #   msg.match.in_port = 4
+      #   msg.actions.append(of.ofp_action_output(port = 3))
+      #   print("To: 3")
+      # elif event.port == 5:
+      #   msg.match.in_port = 5
+      #   msg.actions.append(of.ofp_action_output(port = 2))
+      #   print("To: 2")
+      # elif event.port == 2:
+      #   msg.match.in_port = 2
+      #   msg.actions.append(of.ofp_action_output(port = 5))
+      #   print("To: 5")
+
+    #Definição dos eventos do switch 2
+    # elif event.dpid == 3:
+    #   print("Switch: " + str(event.dpid))
+    #   print("From: " + str(event.port))
+    #   if event.port == 2:
+    #     msg.match.in_port = 2
+    #     msg.actions.append(of.ofp_action_output(port = 4))
+    #     print("To: 4")
+    #   if event.port == 4:
+    #     msg.match.in_port = 4
+    #     msg.actions.append(of.ofp_action_output(port = 2))
+    #     print("To: 2")
+
+    #Definição dos eventos do switch 3
+    # event.connection.send(msg)
+
+
 
 
 
