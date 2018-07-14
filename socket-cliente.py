@@ -30,7 +30,6 @@ try:
     timestamp = ((round(time.time() * 1000) + delta) / 1000.0)
     print('horario local ajustado: %s' % datetime.fromtimestamp(timestamp))
     
-    #Define o horário do sistema para o horário recebido do servidor.
     os.system("date +%s -s @" + str(timestamp))
 finally:
     print('closing socket')
