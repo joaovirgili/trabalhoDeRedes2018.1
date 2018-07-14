@@ -17,20 +17,11 @@ class MyTopo(Topo):
         switch = self.addSwitch('s2')
         switch = self.addSwitch('s3')
 
-        # switch = self.addSwitch('s1', ip='10.10.1.0/24')
-        # switch = self.addSwitch('s2', ip='10.10.2.0/24')
-        # switch = self.addSwitch('s3', ip='10.10.3.0/24')
-
-
-
-
         #Adiciona hosts h1 e h2 a topologia.
         for h in xrange(9):
             host = self.addHost('h%d' % (h + 1))
 
-        #Adiciona Links entre h1,s1 e h2.
-
-
+        #Adiciona Links.
         self.addLink('s1', 's2')
         self.addLink('s2', 's3')
         self.addLink('s1', 's3')
@@ -67,28 +58,6 @@ def main():
     s2 = net.get('s2') #Get switch s1 instance from net
     s3 = net.get('s3') #Get switch s1 instance from net
     
-    #Adicionando no switch os fluxos via 'ovs-ofctl add-flow'
-    # formato do comando:
-    # ovs-ofctl add-flow [switch] [regras], [ações]
-
-    # s1.cmd('ovs-ofctl add-flow s1 in_port=3,actions=output:4')
-    # s1.cmd('ovs-ofctl add-flow s1 in_port=4,actions=output:3')
-
-    # s2.cmd('ovs-ofctl add-flow s2 in_port=3,actions=output:4') 
-    # s2.cmd('ovs-ofctl add-flow s2 in_port=4,actions=output:3')
-
-    # s1.cmd('ovs-ofctl add-flow s1 in_port=5,actions=output:1') 
-    # s1.cmd('ovs-ofctl add-flow s1 in_port=1,actions=output:5')
-
-    # s2.cmd('ovs-ofctl add-flow s2 in_port=5,actions=output:1') 
-    # s2.cmd('ovs-ofctl add-flow s2 in_port=1,actions=output:5')
-    # "Descomentando as linhas 36 e 37, os hosts devem ser capazes de enviarem pacotes um pro outro,\
-    # vocês podem testar usando ping, utilizando o comando h1 ping h2 na CLI do mininet" 
-
-    # print "Testing network connectivity"
-    # net.pingAll()
-
-
     #---------- ARP ------------------------------------------------------------------#
     #Vocês precisarão dessa parte do codigo para não precisarem tratar o problema
     #de loops na rede no broadcast do protocolo ARP. basta copiar e colar, eestá feito
@@ -101,7 +70,6 @@ def main():
            h_dst = net.get('h%d' % (j+1))
            h.setARP(h_dst.IP(), h_dst.MAC())
     # ---------------------------------------------------------------------------------#
-
 
     CLI(net)
     net.stop()

@@ -31,6 +31,7 @@ def _handle_PacketIn (event):
   msg.match.dl_type = 0x800    
   msg.match.nw_dst = dstip  
   
+  #Log do evento para demonstração.
   print("Switch: " + str(event.dpid))
   print("Event to " + str(dstip))
 
@@ -76,7 +77,7 @@ def _handle_PacketIn (event):
   #Envio da mensagem.
   event.connection.send(msg)
 
-  #
+  #Tratamento de perda de pacote
   msg = of.ofp_packet_out()
   msg.data = event.ofp
   msg.actions.append(of.ofp_action_output(port=of.OFPP_FLOOD))

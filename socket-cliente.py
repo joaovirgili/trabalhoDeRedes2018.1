@@ -15,7 +15,6 @@ req = bytearray(message, 'ascii')
 try:
 
     # Envia dados
-
     print('sending ' "%s" % message)
     sent = sock.sendto(req, server_address)
 
@@ -30,8 +29,9 @@ try:
     delta = currentServerTime - timeNow
     timestamp = ((round(time.time() * 1000) + delta) / 1000.0)
     print('horario local ajustado: %s' % datetime.fromtimestamp(timestamp))
+    
+    #Define o horário do sistema para o horário recebido do servidor.
     os.system("date +%s -s @" + str(timestamp))
-    # print(str(currentServerTime))
 finally:
     print('closing socket')
     sock.close()
