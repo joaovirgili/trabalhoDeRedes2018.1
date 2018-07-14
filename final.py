@@ -76,5 +76,11 @@ def _handle_PacketIn (event):
   #Envio da mensagem.
   event.connection.send(msg)
 
+  #
+  msg = of.ofp_packet_out()
+  msg.data = event.ofp
+  msg.actions.append(of.ofp_action_output(port=of.OFPP_FLOOD))
+  event.connection.send(msg)
+
 def launch (reactive = False):
     core.openflow.addListenerByName("PacketIn", _handle_PacketIn)
